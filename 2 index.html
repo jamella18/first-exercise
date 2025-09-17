@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercise 15 - Registration Form</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body { font-family: Arial; background: #f9f9f9; padding: 20px; }
+    form { background: #fff; padding: 20px; border-radius: 8px; width: 400px; margin: auto; }
+    label { display: block; margin-top: 10px; }
+    input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; }
+    .error { border: 1px solid red; }
+    .char-count { font-size: 12px; color: gray; text-align: right; }
+    button { margin-top: 15px; padding: 10px; background: #007bff; color: #fff; border: none; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <form id="regForm">
+    <h2>Registration Form</h2>
+
+    <label>Username</label>
+    <input type="text" id="username" required>
+
+    <label>Email</label>
+    <input type="email" id="email" required>
+
+    <label>Password</label>
+    <input type="password" id="password" required>
+    <button type="button" class="toggle" data-target="#password">Show/Hide</button>
+
+    <label>Confirm Password</label>
+    <input type="password" id="confirm" required>
+    <button type="button" class="toggle" data-target="#confirm">Show/Hide</button>
+
+    <label>Gender</label>
+    <input type="radio" name="gender" value="male"> Male
+    <input type="radio" name="gender" value="female"> Female
+
+    <label>Interests</label>
+    <input type="checkbox" value="coding"> Coding
+    <input type="checkbox" value="gaming"> Gaming
+    <input type="checkbox" value="music"> Music
+
+    <label>Country</label>
+    <select id="country" required>
+      <option value="">Select...</option>
+      <option value="ph">Philippines</option>
+      <option value="us">United States</option>
+    </select>
+
+    <label>Bio</label>
+    <textarea id="bio" maxlength="150"></textarea>
+    <div class="char-count">0/150</div>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <script>
+    // Show/Hide Password
+    $(".toggle").click(function(){
+      let input = $($(this).data("target"));
+      input.attr("type", input.attr("type") === "password" ? "text" : "password");
+    });
+
+    // Character Count
+    $("#bio").on("input", function(){
+      $(".char-count").text($(this).val().length + "/150");
+    });
+
+    // Validation
+    $("#regForm").submit(function(e){
+      e.preventDefault();
+      let valid = true;
+
+      $("#username, #email, #password, #confirm, #country").each(function(){
+        if($(this).val().trim() === ""){
+          $(this).addClass("error"); valid = false;
+        } else { $(this).removeClass("error"); }
+      });
+
+      if($("#password").val() !== $("#confirm").val()){
+        alert("Passwords do not match!");
+        valid = false;
+      }
+
+      if(valid) alert("Registration Successful!");
+    });
+  </script>
+</body>
+</html>
